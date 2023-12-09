@@ -74,8 +74,8 @@ int main() {
             std::cin >> password;
             if (authenticateUser(databank, username, hashPassword(password))) {
                 std::cout << success << std::endl;
-                if (username == adminUserName) 
-                    listUsers(databank);
+                if (username == adminUserName) // d)
+                    listUsers(databank); // d)
             }
             else 
                 std::cout << fail << std::endl;
