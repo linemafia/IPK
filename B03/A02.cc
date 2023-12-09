@@ -1,6 +1,5 @@
 #include <iostream>
 #include <unordered_map>
-#include <vector>
 
 typedef std::unordered_map<std::string, std::size_t> DataBankType;
 
