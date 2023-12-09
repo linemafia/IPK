@@ -45,6 +45,7 @@ int main() {
     std::string question = "What do you want to do? ";
     std::string success = "Operation succeeded ";
     std::string fail = "Operation failed ";
+    std::string adminUserName = "admin";
     
     while (true) {
         std::cout << question << std::endl;
@@ -71,8 +72,11 @@ int main() {
             std::cout << "Enter your password: " << std::endl;
             std::string password;
             std::cin >> password;
-            if (authenticateUser(databank, username, hashPassword(password)))
+            if (authenticateUser(databank, username, hashPassword(password))) {
                 std::cout << success << std::endl;
+                if (username == adminUserName) 
+                    listUsers(databank);
+            }
             else 
                 std::cout << fail << std::endl;
         } else { // quit
