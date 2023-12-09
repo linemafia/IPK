@@ -29,6 +29,14 @@ bool authenticateUser(DataBankType& dataBank, const std::string& userName, const
     return false;
 }
 
+// d)
+void listUsers(DataBankType& dataBank) {
+    std::cout << "List of users (<Username>, <Hashed Password>) :" << std::endl;
+    for (DataBankType::iterator it = dataBank.begin(); it != dataBank.end(); it ++) {
+        std::cout << it -> first << ", " << it -> second << std::endl;
+    }
+}
+
 
 // b)
 int main() {
