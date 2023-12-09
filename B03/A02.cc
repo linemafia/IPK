@@ -11,40 +11,66 @@ std::size_t hashPassword(const std::string & password) {
 }
 
 // a)
-bool createUser(DataBankType& dataBank, const std::string& userName, const std::string& password) {
+bool createUser(DataBankType& dataBank, const std::string& userName, const size_t password) {
     if (dataBank.count(userName)) {
         return false;
     }
-    dataBank[userName] = hashPassword(password);
+    dataBank[userName] = password;
     return true;
 }
 
-// b)
-bool authenticateUser(DataBankType& dataBank, const std::string& userName, const std::string& password) {
+// a)
+bool authenticateUser(DataBankType& dataBank, const std::string& userName, const size_t password) {
     DataBankType::iterator itFindUser = dataBank.find(userName);
     if (itFindUser == dataBank.end())
         return false;
-    if (itFindUser -> second == hashPassword(password))
+    if (itFindUser -> second == password)
         return true;
     return false;
 }
 
 
+// b)
 int main() {
-    int n;
     DataBankType databank;
-    std::cin >> n;
-    for (int i = 0; i < n; i ++) {
-        std::string username, password;
-        std::cin >> username >> password;
-        std::cout << createUser(databank, username, password) << std::endl;
-    }
-    std::cout << "==========================";
-    int m;
-    std::cin >> m;
-    for (int i = 0; i < m; i ++) {
-        std::string username, password;
-        std::cin >> username >> password;
-        std::cout << authenticateUser(databank, username, password) << std::endl;
+    std::string hint = "hint: 1 - sign up; 2 - log in; 3 - quit ";
+    std::string question = "What do you want to do? ";
+    std::string success = "Operation succeeded ";
+    std::string fail = "Operation failed ";
+    
+    while (true) {
+        std::cout << question << std::endl;
+        int action = 0;
+        while ((1 > action) || (3 < action)) {
+            std::cout << hint << std::endl;
+            std::cin >> action;
+        }
+        if (action == 1) { // sign up
+            std::cout << "Enter a new username: " << std::endl;
+            std::string username;
+            std::cin >> username;
+            std::cout << "Enter a password: " << std::endl;
+            std::string password;
+            std::cin >> password;
+            if (createUser(databank, username, hashPassword(password)))
+                std::cout << success << std::endl;
+            else 
+                std::cout << fail << std::endl;
+        } else if (action == 2) { // log in
+            std::cout << "Enter your username: " << std::endl;
+            std::string username;
+            std::cin >> username;
+            std::cout << "Enter your password: " << std::endl;
+            std::string password;
+            std::cin >> password;
+            if (authenticateUser(databank, username, hashPassword(password)))
+                std::cout << success << std::endl;
+            else 
+                std::cout << fail << std::endl;
+        } else { // quit
+            std::cout << success << std::endl;
+            break;
+        }
+        std::cout << std::endl;
     }
 }
