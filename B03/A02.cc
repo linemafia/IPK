@@ -37,6 +37,14 @@ void listUsers(DataBankType& dataBank) {
     }
 }
 
+// e)
+bool changePassword(DataBankType& dataBank, const std::string& userName, const size_t password) {
+    DataBankType::iterator itFindUser = dataBank.find(userName);
+    if (itFindUser == dataBank.end())
+        return false;
+    itFindUser -> second = password;
+    return true;
+}
 
 // b)
 int main() {
@@ -76,6 +84,20 @@ int main() {
                 std::cout << success << std::endl;
                 if (username == adminUserName) // d)
                     listUsers(databank); // d)
+                std::cout << "Would you like to change your password? "; // e
+                std::string answer = "0";
+                while ((answer != "y") && (answer != "n")) {
+                    std::cout << "[y/n]" << std::endl;
+                    std::cin >> answer;
+                }
+                if (answer == "y") {
+                    std::cout << "Enter your new password: " << std::endl;
+                    std::cin >> password;
+                    if (changePassword(databank, username, hashPassword(password)))
+                        std::cout << success << std::endl;
+                    else
+                        std::cout << fail << std::endl;
+                }
             }
             else 
                 std::cout << fail << std::endl;
