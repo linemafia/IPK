@@ -29,7 +29,7 @@ bool Fach::noteEintragen(double note) {
 bool Fach::bestanden() const {
     if (this -> note == 0.0)
         return false;
-    if (this -> note < 4.0)
+    if (this -> note > 4.0)
         return false;
     return true;
 }

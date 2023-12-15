@@ -3,7 +3,7 @@
 FachListe::FachListe() {}
 
 // trägt die Fächer in faecher direkt in _faecher ein.
-FachListe::FachListe(std::vector<Fach> faecher) : _faecher(_faecher) {
+FachListe::FachListe(std::vector<Fach> faecher) : _faecher(faecher) {
 }
 
 // fügt fach zu _faecher hinzu
