@@ -17,7 +17,7 @@ double Temperatur::getCelsius() const {
     return (this -> _kelvinT) - 273.15;
 }
 double Temperatur::getFahrenheit() const {
-    return ((this -> _kelvinT) - 273,15) * (9.0 / 5.0) + 32;
+    return ((this -> _kelvinT) - 273.15) * (9.0 / 5.0) + 32;
 }
 
 // Setter für Kelvin, Celsius und Fahrenheit
@@ -30,7 +30,7 @@ bool Temperatur::setCelsius(const double& celsiusT) {
     return true;
 }
 bool Temperatur::setFahrenheit(const double& fahrenheitT) {
-    this -> _kelvinT = (fahrenheitT - 32) * (5.0 / 9.0) + 273,15;
+    this -> _kelvinT = (fahrenheitT - 32) * (5.0 / 9.0) + 273.15;
     return true;
 }
 
