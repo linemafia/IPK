@@ -1,10 +1,3 @@
-/*
-
-2https://de.wikipedia.org/wiki/Matrix_(Mathematik)#Transponierte_Matrix
-3https://de.wikipedia.org/wiki/Matrix_(Mathematik)#Matrizenaddition
-4https://de.wikipedia.org/wiki/Matrix_(Mathematik)#Matrizenmultiplikation
-Seite
-*/
 # include <array>
 # include <iostream>
 
@@ -13,18 +6,21 @@ class Matrix {
     private:
         std::array<std::array<Number, M>, N> valArr;
     public:
-        // e) 
-        /*
-        (5 Bonus- Punkte) Schreiben Sie einen weiteren Konstruktor, der (über einen Template-
-        Parameter) einen verschachtelten Container annimmt, und mit dessen Inhalt die Matrix
-        füllt. Vor allem soll somit die Initialisierung durch ein std::array<std::array> und einen
-        std::vector<std::vector> möglich sein.
-        Tipp: Durch zwei verschachtelte Range-Based-For-Loops und das Keyword auto können Sie
-        problemlos über einen Container unbekannten Typs iterieren.
-        1falls noch nicht bekannt: für diese Aufgabe reicht es größtenteils, sich diese als N ×M große Tabelle von Zahlen
-        vorzustellen */
+        // e)
+
+        // constructor for std::vector<std::vector>, std::array<std::array> 
         template<typename Container>
-        Matrix(Container valCont) : valArr(valCont) {}
+        Matrix(const Container& valCont) : valArr() {
+            unsigned int i = 0;
+            for (const auto & line : valCont) {
+                unsigned int j = 0;
+                for (const Number& val : line) {
+                    valArr[i][j] = val;
+                    j ++;
+                }
+                i ++;
+            }
+        }
 
 
         // a)
@@ -34,8 +30,8 @@ class Matrix {
 
         // die Matrix auf der Konsole ausgibt
         void print() const {
-            for (std::array<Number, M>& line : valArr) {
-                for (Number& val : valArr)
+            for (const std::array<Number, M>& line : valArr) {
+                for (const Number& val : line)
                     std::cout << val << " ";
                 std::cout << std::endl;
             }
@@ -51,10 +47,10 @@ class Matrix {
 
         // die Matrix in transponiert2 zurückgibt.
         Matrix<Number, M, N> transpose() const {
-            Matrix<Number, M, N> result(M, N);
+            Matrix<Number, M, N> result;
             for (unsigned int i = 0; i < N; i ++)
                 for (unsigned int j = 0; j < M; j ++)
-                    result.valArr[j][i] = valArr[i][j];
+                    result.get(j, i) = valArr[i][j];
             return result;
         }
 
@@ -62,21 +58,21 @@ class Matrix {
 
         // eine Matrix gleicher Größe bekommt und eine Matrix zurück gibt, 
         // deren Elemente jeweils die Summe der Elemente an der gleichen Stelle sind.
-        Matrix<Number, N, M> add(const Matrix<Number, N, M>& other) const {
-            Matrix<Number, N, M> result(N, M);
+        Matrix<Number, N, M> add(Matrix<Number, N, M>& other) const {
+            Matrix<Number, N, M> result;
             for (unsigned int i = 0; i < N; i ++) 
                 for (unsigned int j = 0; j < M; j ++)
-                    result.valArr[i][j] = valArr[i][j] + other.valArr[i][j];
+                    result.get(i, j) = valArr[i][j] + other.get(i, j);
             return result;
         }
 
         // eine Matrix gleicher Größe bekommt und eine Matrix zurück gibt, 
         // deren Elemente jeweils die Differenz der Elemente an der gleichen Stelle sind.
-        Matrix<Number, N, M> subtract(const Matrix<Number, N, M>& other) const {
-            Matrix<Number, N, M> result(N, M);
+        Matrix<Number, N, M> subtract(Matrix<Number, N, M>& other) const {
+            Matrix<Number, N, M> result;
             for (unsigned int i = 0; i < N; i ++) 
                 for (unsigned int j = 0; j < M; j ++)
-                    result.valArr[i][j] = valArr[i][j] - other.valArr[i][j];
+                    result.get(i, j) = valArr[i][j] - other.get(i, j);
             return result;
         }
 
@@ -84,24 +80,12 @@ class Matrix {
 
         // die Matrix-Multiplikation4 durchführt
         template<unsigned int K>
-        Matrix<Number, N, K> multiply(const Matrix<Number, M, K>& other) const {
+        Matrix<Number, N, K> multiply(Matrix<Number, M, K>& other) const {
             Matrix<Number, N, K> result;
             for (unsigned int i = 0; i < N; i ++)
                 for (unsigned int t = 0; t < K; t ++)
                     for (unsigned int j = 0; j < M; j ++)
-                        result.valArr[i][t] += valArr[i][j] * other.valArr[j][t];
+                        result.get(i, t) += valArr[i][j] * other.get(j, t);
             return result;
         }
-
-
-
-
 };
-
-
-/*
-            if (N != other.N || M != other.M) {
-                std::err << "Err: .add two matrices of different sizes" << std::endl;
-                return Matrix<Number>();
-            }
-*/
