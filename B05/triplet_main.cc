@@ -24,4 +24,6 @@ int main() {
     triplet.setThird('R');
     std::cout << "Modified triplet: " << std::endl;
     show(triplet);
+
+    return 0;
 }

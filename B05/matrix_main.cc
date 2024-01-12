@@ -37,4 +37,6 @@ int main() {
     matArr.subtract(mat).print();
     std::cout << "Multiply : (no. 1) o (no 2.)" << std::endl;
     matArr.multiply<2>(matVec).print();
+
+    return 0;
 }
