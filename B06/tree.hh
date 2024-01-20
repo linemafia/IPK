@@ -7,16 +7,17 @@ template<typename Value>
 class BinaryTreeNode {
     private:
         Value val;
-        std::shared_ptr<BinaryTreeNode> leftChild;
-        std::shared_ptr<BinaryTreeNode> rightChild;
+        std::shared_ptr<BinaryTreeNode<Value>> leftChild;
+        std::shared_ptr<BinaryTreeNode<Value>> rightChild;
         bool leaf;
     public:
         // leaf-constructor
-        BinaryTreeNode(const Value& valInit) : val(valInit), leaf(true) {}
+        BinaryTreeNode(const Value& valInit) : 
+                val(valInit), leftChild(), rightChild(), leaf(true) {}
 
         // non-leaf-constructor
-        BinaryTreeNode(const std::shared_ptr<Value>& leftChInit, const std::shared_ptr<Value>& rightChInit) : 
-                leftChild(leftChInit), rightChild(rightChInit), val() {};
+        BinaryTreeNode(const std::shared_ptr<BinaryTreeNode<Value>>& leftChInit, const std::shared_ptr<BinaryTreeNode<Value>>& rightChInit) : 
+                val(), leftChild(leftChInit), rightChild(rightChInit), leaf(false) {};
 
         // methods
         Value getValue() const { return val; }

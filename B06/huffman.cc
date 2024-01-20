@@ -14,12 +14,6 @@ std::map<char, int> countCharacterFrequency(const std::string & text) {
 }
 // end a)
 
-// c)
-template<typename T>
-bool isWeightGreater(const std::pair<int, T>& left, const std::pair<int, T> right) {
-    return left.first > right.first;
-}
-// end c)
 
 // h)
 // returns "is the left pair smaller?"
@@ -57,7 +51,7 @@ std::string boolVectorToString(const BitVector& vec) {
     std::string code(vec.size(), '0');
     std::string::iterator itStr = code.begin();
     std::string::iterator itStrEnd = code.end();
-    BitVector::iterator itVec = vec.begin();
+    BitVector::const_iterator itVec = vec.begin();
     while (itStr != itStrEnd) {
         if (*itVec)
             *itStr = '1';
