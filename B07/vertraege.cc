@@ -51,7 +51,10 @@ VertragsBundle::VertragsBundle(std::shared_ptr<AbstrakterVertrag> mainDealInit) 
     mainDeal(mainDealInit) {}
 
 double VertragsBundle::berechneKosten() const {
-    return mainDeal -> berechneKosten();
+    double check = mainDeal -> berechneKosten();
+    for (auto deal : deals)
+        check += deal -> berechneKosten();
+    return check;
 }
 void VertragsBundle::verbraucheTelefonEinheiten(double min) {
     mainDeal -> verbraucheTelefonEinheiten(min);
@@ -64,7 +67,7 @@ std::shared_ptr<AbstrakterVertrag> VertragsBundle::get() {
     return mainDeal;
 }
 std::shared_ptr<AbstrakterVertrag> VertragsBundle::get(unsigned int i) {
-    if (i < deals.size())
+    if (i >= deals.size())
         throw std::out_of_range("Error: index out of range.");
     return deals[i];
 }
