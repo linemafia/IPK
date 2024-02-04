@@ -54,7 +54,7 @@ public:
         value = line;
         isSet = true;
     }
-    void parseConfigLine(std::vector<std::string>& args) {
+    void parseArgs(std::vector<std::string>& args) {
         std::vector<std::string>::iterator findIt = std::find(args.begin(), args.end(),"-" + name);
         if (findIt != args.end()) {
             findIt ++;
@@ -152,7 +152,6 @@ public:
         std::string line;
         while (std::getline(configFile, line)) {
             unsigned int findDots = line.find(":");
-            unsigned int lineLen = line.size();
             if (findDots == std::string::npos)
                 throw std::runtime_error("Invalid line in config-file (no \":\")");
             std::string name = line.substr(0, findDots);
