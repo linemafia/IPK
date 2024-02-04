@@ -96,19 +96,23 @@ public:
     void parseArgs(std::vector<std::string>& args) {
         std::vector<std::string>::iterator findIt = std::find(args.begin(), args.end(),"-" + name);
         if (findIt != args.end()) {
+            findIt ++;
+            if (findIt == args.end())
+                throw std::invalid_argument("Need 2 double arguments for a RangeFlag after \"-" + name + "\" (found none)");
             try {
-                findIt ++;
-                if (findIt == args.end())
-                    throw std::invalid_argument("Need 2 double arguments for a RangeFlag after \"-" + name + "\" (found none)");
                 val1 = std::stod(*findIt);
-                findIt ++;
-                if (findIt == args.end())
-                    throw std::invalid_argument("Need 2 double arguments for a RangeFlag after \"-" + name + "\" (found 1)");
-                val2 = std::stod(*findIt);
-                isSet = true;
             } catch (const std::exception& e) {
                 throw std::invalid_argument("Need 2 double arguments for a RangeFlag after \"-" + name + "\"");
             }
+            findIt ++;
+            if (findIt == args.end())
+                throw std::invalid_argument("Need 2 double arguments for a RangeFlag after \"-" + name + "\" (found 1)");
+            try {
+                val2 = std::stod(*findIt);
+            } catch (const std::exception& e) {
+                throw std::invalid_argument("Need 2 double arguments for a RangeFlag after \"-" + name + "\"");
+            }
+            isSet = true;
             findIt --; findIt --;
             args.erase(findIt); // -NAME
             args.erase(findIt); // the first argument
