@@ -31,7 +31,7 @@ public:
             isSet = true;
             return;
         }
-        throw std::runtime_error("Invalid value for the BoolFlag \"" + name + "\" in config-file");
+        throw std::invalid_argument("Invalid value for the BoolFlag \"" + name + "\" in config-file");
     }
     void parseArgs(std::vector<std::string>& args) {
         std::vector<std::string>::iterator findIt = std::find(args.begin(), args.end(),"-" + name);
@@ -59,7 +59,7 @@ public:
         if (findIt != args.end()) {
             findIt ++;
             if (findIt == args.end()) {
-                throw std::runtime_error("no arguments for a StringFlag after \"-" + name + "\"");
+                throw std::invalid_argument("No arguments for a StringFlag after \"-" + name + "\"");
             }
             value = *findIt;
             args.erase(--findIt); // -NAME
@@ -70,7 +70,7 @@ public:
     std::string get() const {
         if (isSet)
             return value;
-        throw std::runtime_error("The StringFlag \"" + name + "\" isn't set");
+        throw std::invalid_argument("The StringFlag \"" + name + "\" isn't set");
     }
 };
 // b_iii)
@@ -83,14 +83,14 @@ public:
         unsigned int spaceI = line.find(" ");
         unsigned int lineLen = line.size();
         if (spaceI >= lineLen) {
-            throw std::runtime_error("Wrong number of arguments for the RangeFlag \"" + name + "\" in the config-file (need 2)");
+            throw std::invalid_argument("Wrong number of arguments for the RangeFlag \"" + name + "\" in the config-file (need 2)");
         }
         try {
             val1 = std::stod(line.substr(0, spaceI));
             val2 = std::stod(line.substr(spaceI, lineLen - spaceI));
             isSet = true;
         } catch (const std::exception& e) {
-            throw std::runtime_error("Wrong arguments for the RangeFlag \"" + name + "\" in the config-file (need 2 doubles)");
+            throw std::invalid_argument("Wrong arguments for the RangeFlag \"" + name + "\" in the config-file (need 2 doubles)");
         }
     }
     void parseArgs(std::vector<std::string>& args) {
@@ -103,7 +103,7 @@ public:
                 val2 = std::stod(*findIt);
                 isSet = true;
             } catch (const std::exception& e) {
-                throw std::runtime_error("Need 2 double arguments for a RangeFlag after \"-" + name + "\"");
+                throw std::invalid_argument("Need 2 double arguments for a RangeFlag after \"-" + name + "\"");
             }
             findIt --; findIt --;
             args.erase(findIt); // -NAME
@@ -114,7 +114,7 @@ public:
     std::array<double, 2> get() const {
         if (isSet)
             return std::array<double, 2>{val1, val2};
-        throw std::runtime_error("The RangeFlag \"" + name + "\" isn't set");
+        throw std::invalid_argument("The RangeFlag \"" + name + "\" isn't set");
     }
 };
 
@@ -153,10 +153,10 @@ public:
         while (std::getline(configFile, line)) {
             unsigned int findDots = line.find(":");
             if (findDots == std::string::npos)
-                throw std::runtime_error("Invalid line in config-file (no \":\")");
+                throw std::invalid_argument("Invalid line in config-file (no \":\")");
             std::string name = line.substr(0, findDots);
             if (flagRegister.count(name) == 0)
-                throw std::runtime_error("No flag with name \"" + name + "\"");
+                throw std::invalid_argument("No flag with name \"" + name + "\"");
             flagRegister[name]->parseConfigLine(line.substr(findDots + 1));
         }
     }
