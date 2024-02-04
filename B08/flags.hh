@@ -164,19 +164,19 @@ public:
     bool getBool(const std::string& name) {
         std::shared_ptr<BoolFlag> boolPtr = std::dynamic_pointer_cast<BoolFlag>(flagRegister[name]);
         if (!boolPtr)
-            throw std::runtime_error("Wrong getter: not a BoolFlag");
+            throw std::invalid_argument("Wrong getter: not a BoolFlag");
         return boolPtr -> get();
     }
     std::string getString(const std::string& name) {
         std::shared_ptr<StringFlag> stringPtr = std::dynamic_pointer_cast<StringFlag>(flagRegister[name]);
         if (!stringPtr)
-            throw std::runtime_error("Wrong getter: not a StringFlag");
+            throw std::invalid_argument("Wrong getter: not a StringFlag");
         return stringPtr -> get();
     }
     std::array<double, 2> getRange(const std::string& name) {
         std::shared_ptr<RangeFlag> rangePtr = std::dynamic_pointer_cast<RangeFlag>(flagRegister[name]);
         if (!rangePtr)
-            throw std::runtime_error("Wrong getter: not a RangeFlag");
+            throw std::invalid_argument("Wrong getter: not a RangeFlag");
         return rangePtr -> get();
     }
 };
