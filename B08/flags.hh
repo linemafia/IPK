@@ -98,8 +98,12 @@ public:
         if (findIt != args.end()) {
             try {
                 findIt ++;
+                if (findIt == args.end())
+                    throw std::invalid_argument("Need 2 double arguments for a RangeFlag after \"-" + name + "\" (found none)");
                 val1 = std::stod(*findIt);
                 findIt ++;
+                if (findIt == args.end())
+                    throw std::invalid_argument("Need 2 double arguments for a RangeFlag after \"-" + name + "\" (found 1)");
                 val2 = std::stod(*findIt);
                 isSet = true;
             } catch (const std::exception& e) {
